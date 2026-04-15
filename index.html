@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rob's Stag Do 2026</title>
+<style>
+  :root {
+    --bg: #0f1923;
+    --card: #1a2a38;
+    --card-alt: #1f3347;
+    --accent: #f59e0b;
+    --accent2: #10b981;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --highlight: #fbbf24;
+    --danger: #ef4444;
+    --info: #38bdf8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Password Gate ── */
+  #gate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    text-align: center;
+  }
+  #gate h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+  #gate .subtitle { color: var(--text-dim); margin-bottom: 2rem; font-size: 0.95rem; }
+  #gate input {
+    background: var(--card);
+    border: 2px solid #334155;
+    color: var(--text);
+    padding: 0.85rem 1.2rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #gate input:focus { border-color: var(--accent); }
+  #gate input.shake {
+    animation: shake 0.4s ease;
+    border-color: var(--danger);
+  }
+  #gate button {
+    margin-top: 1rem;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 0.85rem 2.5rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.1s, opacity 0.2s;
+  }
+  #gate button:active { transform: scale(0.96); }
+  #gate .error { color: var(--danger); margin-top: 0.75rem; font-size: 0.85rem; min-height: 1.2em; }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(6px); }
+  }
+
+  /* ── Main Content (hidden until auth) ── */
+  #content { display: none; }
+
+  /* ── Hero ── */
+  .hero {
+    text-align: center;
+    padding: 3rem 1.5rem 1.5rem;
+    background: linear-gradient(180deg, #1a2a38 0%, var(--bg) 100%);
+  }
+  .hero .flag { margin-bottom: 0.5rem; }
+  .hero .flag svg { width: 64px; height: 43px; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+  .hero h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: 1px; }
+  .hero .location { color: var(--accent); font-weight: 600; margin-top: 0.25rem; font-size: 1.05rem; }
+  .hero .dates { color: var(--text-dim); font-size: 0.95rem; margin-top: 0.25rem; }
+
+  /* ── Sticky Nav ── */
+  .day-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    gap: 0;
+    background: var(--card);
+    border-bottom: 1px solid #334155;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .day-nav::-webkit-scrollbar { display: none; }
+  .day-nav a {
+    flex: 1;
+    min-width: fit-content;
+    padding: 0.75rem 0.6rem;
+    text-align: center;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .day-nav a:hover, .day-nav a.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ── Sections ── */
+  .container { max-width: 600px; margin: 0 auto; padding: 0 1rem 4rem; }
+
+  section { margin-top: 2rem; }
+  section h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* ── Info Cards ── */
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 1rem 1.15rem;
+    margin-bottom: 0.75rem;
+    border-left: 4px solid var(--accent);
+  }
+  .card.green { border-left-color: var(--accent2); }
+  .card.blue { border-left-color: var(--info); }
+  .card.red { border-left-color: var(--danger); }
+  .card .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-bottom: 0.2rem;
+  }
+  .card .value { font-weight: 700; font-size: 1rem; }
+  .card .detail { color: var(--text-dim); font-size: 0.85rem; margin-top: 0.15rem; }
+
+  /* ── Timeline ── */
+  .timeline { padding-left: 0; list-style: none; }
+  .timeline li {
+    position: relative;
+    padding: 0.6rem 0 0.6rem 1.5rem;
+    border-left: 2px solid #334155;
+  }
+  .timeline li::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 1rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .timeline li.highlight { border-left-color: var(--accent); }
+  .timeline li .time {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+  }
+  .timeline li .event { font-size: 0.95rem; }
+  .timeline li .note { font-size: 0.8rem; color: var(--text-dim); margin-top: 0.1rem; }
+
+  /* ── Checklist ── */
+  .checklist { list-style: none; padding: 0; }
+  .checklist li {
+    padding: 0.55rem 0;
+    padding-left: 1.6rem;
+    position: relative;
+    font-size: 0.95rem;
+  }
+  .checklist li::before {
+    content: '☐';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  /* ── Flight Badge ── */
+  .flight-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--card-alt);
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+    width: 100%;
+  }
+  .flight-badge .arrow { color: var(--accent); }
+
+  /* ── Subheading ── */
+  .sub { font-size: 1.05rem; font-weight: 700; margin: 1.2rem 0 0.5rem; color: var(--info); }
+
+  /* ── Links ── */
+  a.venue { color: var(--info); text-decoration: none; border-bottom: 1px dashed var(--info); }
+  a.venue:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .card a.venue { font-weight: 700; }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 0; }
+</style>
+</head>
+<body>
+
+<!-- ════════════ PASSWORD GATE ════════════ -->
+<div id="gate">
+  <div class="flag"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="64" height="43" style="border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.3)"><rect width="600" height="400" fill="#FF0000"/><rect width="240" height="400" fill="#006600"/><circle cx="240" cy="200" r="60" fill="#FFCC00"/><circle cx="240" cy="200" r="45" fill="#FF0000"/><path d="M210 175h60v50h-60z" fill="#FFCC00" opacity="0.6"/></svg></div>
+  <h1>ROB'S STAG DO</h1>
+  <p class="subtitle">Enter the password to view the itinerary</p>
+  <input type="password" id="pwd" placeholder="Password" autocomplete="off" />
+  <button onclick="checkPwd()">Let's Go</button>
+  <p class="error" id="err"></p>
+</div>
+
+<!-- ════════════ MAIN CONTENT ════════════ -->
+<div id="content">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="flag"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="64" height="43"><rect width="600" height="400" fill="#FF0000"/><rect width="240" height="400" fill="#006600"/><circle cx="240" cy="200" r="60" fill="#FFCC00"/><circle cx="240" cy="200" r="45" fill="#FF0000"/><path d="M210 175h60v50h-60z" fill="#FFCC00" opacity="0.6"/></svg></div>
+    <h1>ROB'S STAG DO</h1>
+    <p class="location">Albufeira, Portugal</p>
+    <p class="dates">17th – 20th April 2026</p>
+  </div>
+
+  <!-- Sticky Nav -->
+  <nav class="day-nav">
+    <a href="#quick-ref">Key Info</a>
+    <a href="#friday">Fri 17th</a>
+    <a href="#saturday">Sat 18th</a>
+    <a href="#sunday">Sun 19th</a>
+    <a href="#monday">Mon 20th</a>
+    <a href="#packing">Packing</a>
+  </nav>
+
+  <div class="container">
+
+    <!-- ── Quick Reference ── -->
+    <section id="quick-ref">
+      <h2>📋 Key Info</h2>
+
+      <div class="card">
+        <div class="label">Booking Reference</div>
+        <div class="value">ZZT8YM</div>
+        <div class="detail">Enter at self-check-in desk with your last name</div>
+      </div>
+
+      <div class="card green">
+        <div class="label">Villa</div>
+        <div class="value"><a class="venue" href="https://www.booking.com/hotel/pt/villa-garden-22-guests-pool-jacuzzi.en-gb.html" target="_blank">Villa Garden</a></div>
+        <div class="detail">Rua Antonio Silva 170, 8200-291 Albufeira</div>
+      </div>
+
+      <div class="card blue">
+        <div class="label">Transfer Company</div>
+        <div class="value">Algaserra Transfers</div>
+      </div>
+
+      <div class="card red">
+        <div class="label">Important</div>
+        <div class="value"><a class="venue" href="https://travel-europe.europa.eu/ees/Travel-to-Europe-mobile-app" target="_blank">Download the Travel to Europe app</a></div>
+        <div class="detail">Pre-fill your data before you fly — required for the new EU Entry/Exit System</div>
+      </div>
+    </section>
+
+    <!-- ── Travel Info ── -->
+    <section id="travel">
+      <h2>✈️ Flights</h2>
+
+      <p class="sub">Outbound — Friday 17th April</p>
+      <div class="flight-badge">
+        <span>BA2660</span>
+        <span>Gatwick South 08:30</span>
+        <span class="arrow">→</span>
+        <span>Faro 11:35</span>
+      </div>
+      <div class="card">
+        <div class="detail">Everyone has hold luggage + carry-on included. Arrive at the airport by <strong>6:00am</strong> if checking a bag, <strong>6:30am</strong> if hand luggage only.</div>
+      </div>
+
+      <p class="sub">Return — Monday 20th April</p>
+      <div class="flight-badge">
+        <span>BA2661</span>
+        <span>Faro 11:30</span>
+        <span class="arrow">→</span>
+        <span>Gatwick South 14:25</span>
+      </div>
+      <div class="card">
+        <div class="detail">Depart villa by <strong>08:40</strong> — transfer to Faro arranged.</div>
+      </div>
+    </section>
+
+    <!-- ── Friday ── -->
+    <section id="friday">
+      <h2>🏖️ Friday 17th — Arrival & Beach Club</h2>
+      <ul class="timeline">
+        <li>
+          <span class="time">~12:30</span>
+          <span class="event">Land at Faro, collect bags, board transfer</span>
+          <span class="note">Algaserra Transfers</span>
+        </li>
+        <li>
+          <span class="time">~13:30</span>
+          <span class="event">Arrive at villa (ready from 13:00–14:00)</span>
+        </li>
+        <li>
+          <span class="time">Afternoon</span>
+          <span class="event">Settle in, chill at the villa, grab supplies</span>
+          <span class="note">Intermarché and Lidl are both nearby</span>
+        </li>
+        <li class="highlight">
+          <span class="time">18:00</span>
+          <span class="event">Minibus to <a class="venue" href="https://thaibeach.pt/" target="_blank">Thai Beach Club</a></span>
+          <span class="note">Falésia Beach, Vilamoura — 25 min journey</span>
+        </li>
+        <li class="highlight">
+          <span class="time">18:30</span>
+          <span class="event">Dinner at Thai Beach Club</span>
+          <span class="note">Set menu £40/head (pre-paid). Live music & DJ. Table until 9pm, then bar area for as long as we want.</span>
+        </li>
+        <li>
+          <span class="time">Late Evening</span>
+          <span class="event">Ubers back to Albufeira / villa</span>
+          <span class="note">UberXL ~£20–25</span>
+        </li>
+        <li>
+          <span class="time">Night</span>
+          <span class="event">Oura Strip — bar hop, keep it casual</span>
+          <span class="note">Pace yourselves, it's a long weekend!</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ── Saturday ── -->
+    <section id="saturday">
+      <h2>⛳ Saturday 18th — Golf, Padel & BBQ</h2>
+      <ul class="timeline">
+        <li>
+          <span class="time">Morning</span>
+          <span class="event">Golf group (6 incl. Rob)</span>
+          <span class="note"><a class="venue" href="https://www.pinecliffs.com/en/golf-sports/" target="_blank">Pine Cliffs Golf Course</a> — ~10 mins from villa</span>
+        </li>
+        <li>
+          <span class="time">Morning</span>
+          <span class="event">Padel group (14 people)</span>
+          <span class="note"><a class="venue" href="https://padel4move.com/en/" target="_blank">Padel4Move</a></span>
+        </li>
+        <li>
+          <span class="time">~13:30</span>
+          <span class="event">Reconvene at villa</span>
+        </li>
+        <li>
+          <span class="time">Afternoon</span>
+          <span class="event">Beach / Bars / Free time</span>
+        </li>
+        <li class="highlight">
+          <span class="time">Evening</span>
+          <span class="event">BBQ at the villa</span>
+        </li>
+        <li class="highlight">
+          <span class="time">Night</span>
+          <span class="event">Big night out — Oura Strip, into a club</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ── Sunday ── -->
+    <section id="sunday">
+      <h2>⚽ Sunday 19th — Football Day</h2>
+      <ul class="timeline">
+        <li>
+          <span class="time">Morning</span>
+          <span class="event">Villa recovery — pool, breakfast, recharge</span>
+        </li>
+        <li>
+          <span class="time">~10:35</span>
+          <span class="event">Uber to <a class="venue" href="https://www.brownssportsresort.com/en/training-camp/football/" target="_blank">Browns Sports Resort</a></span>
+          <span class="note">25 minute journey</span>
+        </li>
+        <li class="highlight">
+          <span class="time">11:00</span>
+          <span class="event">5-a-side Football</span>
+          <span class="note">4 teams, 4 captains, round robin tournament</span>
+        </li>
+        <li>
+          <span class="time">13:00</span>
+          <span class="event">Head back to villa</span>
+        </li>
+        <li>
+          <span class="time">Afternoon</span>
+          <span class="event">Beach / Bars / Free time</span>
+        </li>
+        <li>
+          <span class="time">17:00</span>
+          <span class="event">Cam, Huw, Pat & Stan depart</span>
+          <span class="note">Safe travels lads</span>
+        </li>
+        <li class="highlight">
+          <span class="time">20:00</span>
+          <span class="event">Group dinner</span>
+          <span class="note">Beach restaurant or old town (TBC)</span>
+        </li>
+        <li>
+          <span class="time">Night</span>
+          <span class="event">Pub crawl or clubs</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ── Monday ── -->
+    <section id="monday">
+      <h2>🛫 Monday 20th — Departure</h2>
+      <ul class="timeline">
+        <li class="highlight">
+          <span class="time">08:40</span>
+          <span class="event">Depart villa — transfer to Faro Airport</span>
+          <span class="note">Rooms must be cleared before we leave</span>
+        </li>
+        <li>
+          <span class="time">~09:30</span>
+          <span class="event">Arrive Faro Airport, check in</span>
+        </li>
+        <li>
+          <span class="time">11:30</span>
+          <span class="event">BA2661 departs Faro</span>
+        </li>
+        <li>
+          <span class="time">14:25</span>
+          <span class="event">Land Gatwick South — home time</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ── What to Bring ── -->
+    <section id="packing">
+      <h2>🎒 What to Bring</h2>
+      <ul class="checklist">
+        <li>Spending money for drinks & dinners</li>
+        <li>Swimwear, sunscreen & towel</li>
+        <li>Smart-casual for evenings out and beach club</li>
+        <li>Golf kit (if in Saturday morning golf group)</li>
+        <li>Sports gear for padel and football</li>
+      </ul>
+    </section>
+
+  </div><!-- /container -->
+</div><!-- /content -->
+
+<script>
+const HASH = '4705f02b2f5296123eb9ee5f1119159e5cb29091c4bc8f7c4c8a7dff30587d3a';
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function checkPwd() {
+  const input = document.getElementById('pwd');
+  const err = document.getElementById('err');
+  const hash = await sha256(input.value.toLowerCase().trim());
+  if (hash === HASH) {
+    sessionStorage.setItem('auth', '1');
+    showContent();
+  } else {
+    err.textContent = 'Wrong password — try again';
+    input.classList.add('shake');
+    setTimeout(() => input.classList.remove('shake'), 400);
+  }
+}
+
+function showContent() {
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+}
+
+// Auto-login if already authenticated this session
+if (sessionStorage.getItem('auth') === '1') showContent();
+
+// Enter key submits password
+document.getElementById('pwd').addEventListener('keydown', e => {
+  if (e.key === 'Enter') checkPwd();
+});
+
+// Highlight active nav on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.day-nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}, { passive: true });
+</script>
+
+</body>
+</html>
