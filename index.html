@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rob's Stag Do 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0f1923;
@@ -13,12 +16,12 @@
     --accent2: #10b981;
     --text: #e2e8f0;
     --text-dim: #94a3b8;
-    --highlight: #fbbf24;
     --danger: #ef4444;
     --info: #38bdf8;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -37,8 +40,14 @@
     min-height: 100vh;
     padding: 2rem;
     text-align: center;
+    background: radial-gradient(ellipse at 50% 40%, #1a2a38 0%, var(--bg) 70%);
   }
-  #gate h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+  #gate h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    letter-spacing: 3px;
+    margin-bottom: 0.15rem;
+  }
   #gate .subtitle { color: var(--text-dim); margin-bottom: 2rem; font-size: 0.95rem; }
   #gate input {
     background: var(--card);
@@ -68,7 +77,7 @@
     font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
-    transition: transform 0.1s, opacity 0.2s;
+    transition: transform 0.1s;
   }
   #gate button:active { transform: scale(0.96); }
   #gate .error { color: var(--danger); margin-top: 0.75rem; font-size: 0.85rem; min-height: 1.2em; }
@@ -87,14 +96,31 @@
   /* ── Hero ── */
   .hero {
     text-align: center;
-    padding: 3rem 1.5rem 1.5rem;
-    background: linear-gradient(180deg, #1a2a38 0%, var(--bg) 100%);
+    padding: 3.5rem 1.5rem 2rem;
+    background: radial-gradient(ellipse at 50% 30%, #1a2a38 0%, var(--bg) 70%);
   }
-  .hero .flag { margin-bottom: 0.5rem; }
-  .hero .flag svg { width: 64px; height: 43px; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
-  .hero h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: 1px; }
-  .hero .location { color: var(--accent); font-weight: 600; margin-top: 0.25rem; font-size: 1.05rem; }
-  .hero .dates { color: var(--text-dim); font-size: 0.95rem; margin-top: 0.25rem; }
+  .hero .flag { margin-bottom: 0.75rem; }
+  .hero .flag svg { width: 64px; height: 43px; border-radius: 4px; box-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    font-weight: 400;
+    letter-spacing: 4px;
+  }
+  .hero .location { color: var(--accent); font-weight: 600; margin-top: 0.3rem; font-size: 1.05rem; }
+  .hero .dates { color: var(--text-dim); font-size: 0.95rem; margin-top: 0.2rem; }
+  .hero .countdown {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.4rem 1.2rem;
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+  }
 
   /* ── Sticky Nav ── */
   .day-nav {
@@ -103,8 +129,10 @@
     z-index: 100;
     display: flex;
     gap: 0;
-    background: var(--card);
-    border-bottom: 1px solid #334155;
+    background: rgba(26, 42, 56, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(51, 65, 85, 0.5);
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
@@ -113,7 +141,7 @@
   .day-nav a {
     flex: 1;
     min-width: fit-content;
-    padding: 0.75rem 0.6rem;
+    padding: 0.9rem 0.75rem;
     text-align: center;
     color: var(--text-dim);
     text-decoration: none;
@@ -131,10 +159,21 @@
   /* ── Sections ── */
   .container { max-width: 600px; margin: 0 auto; padding: 0 1rem 4rem; }
 
-  section { margin-top: 2rem; }
+  section {
+    margin-top: 2rem;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
   section h2 {
-    font-size: 1.35rem;
-    font-weight: 700;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    letter-spacing: 1.5px;
     margin-bottom: 1rem;
     padding-bottom: 0.4rem;
     border-bottom: 2px solid var(--accent);
@@ -189,7 +228,7 @@
     display: block;
   }
   .timeline li .event { font-size: 0.95rem; }
-  .timeline li .note { font-size: 0.8rem; color: var(--text-dim); margin-top: 0.1rem; }
+  .timeline li .note { font-size: 0.8rem; color: var(--text-dim); margin-top: 0.1rem; display: block; }
 
   /* ── Checklist ── */
   .checklist { list-style: none; padding: 0; }
@@ -206,20 +245,66 @@
     color: var(--accent);
   }
 
-  /* ── Flight Badge ── */
-  .flight-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+  /* ── Flight Badge (boarding pass) ── */
+  .flight-card {
     background: var(--card-alt);
-    padding: 0.6rem 1rem;
-    border-radius: 10px;
-    font-size: 0.9rem;
-    font-weight: 600;
+    border-radius: 12px;
+    padding: 1rem 1.15rem;
     margin: 0.5rem 0;
-    width: 100%;
+    position: relative;
+    overflow: hidden;
   }
-  .flight-badge .arrow { color: var(--accent); }
+  .flight-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--info));
+  }
+  .flight-card .flight-number {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+  .flight-card .flight-route {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .flight-card .flight-point {
+    flex: 1;
+  }
+  .flight-card .flight-point.arrival { text-align: right; }
+  .flight-card .flight-point .airport {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .flight-card .flight-point .time-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    line-height: 1.1;
+  }
+  .flight-card .flight-arrow {
+    color: var(--accent);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+  }
+  .flight-card .flight-arrow .line {
+    width: 40px;
+    height: 1px;
+    background: #334155;
+  }
+  .flight-card .flight-arrow svg { width: 16px; height: 16px; fill: var(--accent); }
 
   /* ── Subheading ── */
   .sub { font-size: 1.05rem; font-weight: 700; margin: 1.2rem 0 0.5rem; color: var(--info); }
@@ -254,6 +339,7 @@
     <h1>ROB'S STAG DO</h1>
     <p class="location">Albufeira, Portugal</p>
     <p class="dates">17th – 20th April 2026</p>
+    <div class="countdown" id="countdown"></div>
   </div>
 
   <!-- Sticky Nav -->
@@ -270,7 +356,7 @@
 
     <!-- ── Quick Reference ── -->
     <section id="quick-ref">
-      <h2>📋 Key Info</h2>
+      <h2>Key Info</h2>
 
       <div class="card">
         <div class="label">Booking Reference</div>
@@ -298,25 +384,49 @@
 
     <!-- ── Travel Info ── -->
     <section id="travel">
-      <h2>✈️ Flights</h2>
+      <h2>Flights</h2>
 
       <p class="sub">Outbound — Friday 17th April</p>
-      <div class="flight-badge">
-        <span>BA2660</span>
-        <span>Gatwick South 08:30</span>
-        <span class="arrow">→</span>
-        <span>Faro 11:35</span>
+      <div class="flight-card">
+        <div class="flight-number">BA2660</div>
+        <div class="flight-route">
+          <div class="flight-point">
+            <div class="airport">Gatwick South</div>
+            <div class="time-big">08:30</div>
+          </div>
+          <div class="flight-arrow">
+            <div class="line"></div>
+            <svg viewBox="0 0 24 24"><path d="M3.64 14.26l2.86.95 4.02-4.02-8-2.59-.58-1.75 9.86 1.97 3.9-3.88a1.5 1.5 0 0 1 2.12 2.12l-3.88 3.9 1.97 9.86-1.75-.58-2.59-8-4.02 4.02.95 2.86-1.42.47L5.1 15.68l-1.46.49z"/></svg>
+            <div class="line"></div>
+          </div>
+          <div class="flight-point arrival">
+            <div class="airport">Faro</div>
+            <div class="time-big">11:35</div>
+          </div>
+        </div>
       </div>
       <div class="card">
         <div class="detail">Everyone has hold luggage + carry-on included. Arrive at the airport by <strong>6:00am</strong> if checking a bag, <strong>6:30am</strong> if hand luggage only.</div>
       </div>
 
       <p class="sub">Return — Monday 20th April</p>
-      <div class="flight-badge">
-        <span>BA2661</span>
-        <span>Faro 11:30</span>
-        <span class="arrow">→</span>
-        <span>Gatwick South 14:25</span>
+      <div class="flight-card">
+        <div class="flight-number">BA2661</div>
+        <div class="flight-route">
+          <div class="flight-point">
+            <div class="airport">Faro</div>
+            <div class="time-big">11:30</div>
+          </div>
+          <div class="flight-arrow">
+            <div class="line"></div>
+            <svg viewBox="0 0 24 24"><path d="M3.64 14.26l2.86.95 4.02-4.02-8-2.59-.58-1.75 9.86 1.97 3.9-3.88a1.5 1.5 0 0 1 2.12 2.12l-3.88 3.9 1.97 9.86-1.75-.58-2.59-8-4.02 4.02.95 2.86-1.42.47L5.1 15.68l-1.46.49z"/></svg>
+            <div class="line"></div>
+          </div>
+          <div class="flight-point arrival">
+            <div class="airport">Gatwick South</div>
+            <div class="time-big">14:25</div>
+          </div>
+        </div>
       </div>
       <div class="card">
         <div class="detail">Depart villa by <strong>08:40</strong> — transfer to Faro arranged.</div>
@@ -325,7 +435,7 @@
 
     <!-- ── Friday ── -->
     <section id="friday">
-      <h2>🏖️ Friday 17th — Arrival & Beach Club</h2>
+      <h2>Friday 17th — Arrival & Beach Club</h2>
       <ul class="timeline">
         <li>
           <span class="time">~12:30</span>
@@ -366,7 +476,7 @@
 
     <!-- ── Saturday ── -->
     <section id="saturday">
-      <h2>⛳ Saturday 18th — Golf, Padel & BBQ</h2>
+      <h2>Saturday 18th — Golf, Padel & BBQ</h2>
       <ul class="timeline">
         <li>
           <span class="time">09:30</span>
@@ -395,7 +505,7 @@
 
     <!-- ── Sunday ── -->
     <section id="sunday">
-      <h2>⚽ Sunday 19th — Football, Last Supper & Pub Crawl</h2>
+      <h2>Sunday 19th — Football, Last Supper & Pub Crawl</h2>
       <ul class="timeline">
         <li>
           <span class="time">Morning</span>
@@ -438,7 +548,7 @@
 
     <!-- ── Monday ── -->
     <section id="monday">
-      <h2>🛫 Monday 20th — Departure</h2>
+      <h2>Monday 20th — Departure</h2>
       <ul class="timeline">
         <li class="highlight">
           <span class="time">08:40</span>
@@ -462,7 +572,7 @@
 
     <!-- ── What to Bring ── -->
     <section id="packing">
-      <h2>🎒 What to Bring</h2>
+      <h2>What to Bring</h2>
       <ul class="checklist">
         <li>Passport</li>
         <li>Spending money for drinks & dinners</li>
@@ -501,6 +611,8 @@ async function checkPwd() {
 function showContent() {
   document.getElementById('gate').style.display = 'none';
   document.getElementById('content').style.display = 'block';
+  initObserver();
+  updateCountdown();
 }
 
 // Auto-login if already authenticated this session
@@ -512,17 +624,45 @@ document.getElementById('pwd').addEventListener('keydown', e => {
 });
 
 // Highlight active nav on scroll
-const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.day-nav a');
 window.addEventListener('scroll', () => {
+  const sects = document.querySelectorAll('section[id]');
   let current = '';
-  sections.forEach(s => {
+  sects.forEach(s => {
     if (window.scrollY >= s.offsetTop - 80) current = s.id;
   });
   navLinks.forEach(a => {
     a.classList.toggle('active', a.getAttribute('href') === '#' + current);
   });
 }, { passive: true });
+
+// Fade-in sections on scroll
+function initObserver() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('section').forEach(s => observer.observe(s));
+}
+
+// Countdown
+function updateCountdown() {
+  const el = document.getElementById('countdown');
+  if (!el) return;
+  const target = new Date('2026-04-17T00:00:00');
+  const now = new Date();
+  const diff = target - now;
+  if (diff <= 0) {
+    el.textContent = "LET'S GO — it's stag do time!";
+    return;
+  }
+  const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+  el.textContent = days === 1 ? 'TOMORROW!' : days + ' days to go';
+}
 </script>
 
 </body>
