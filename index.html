@@ -113,7 +113,7 @@
   .hero .dates { color: var(--text-dim); font-size: 0.95rem; margin-top: 0.2rem; }
   .hero .countdown {
     display: inline-block;
-    margin-top: 1rem;
+    margin-top: 1.25rem;
     padding: 0.4rem 1.2rem;
     background: rgba(245, 197, 24, 0.12);
     border: 1px solid rgba(245, 197, 24, 0.25);
@@ -143,12 +143,13 @@
   .day-nav a {
     flex: 1;
     min-width: fit-content;
-    padding: 0.9rem 0.75rem;
+    padding: 1rem 0.75rem;
     text-align: center;
     color: var(--text-dim);
     text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: 600;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
     white-space: nowrap;
     border-bottom: 3px solid transparent;
     transition: color 0.2s, border-color 0.2s;
@@ -162,22 +163,26 @@
   .container { max-width: 600px; margin: 0 auto; padding: 0 1rem 4rem; }
 
   section {
-    margin-top: 2rem;
+    margin-top: 3rem;
     opacity: 0;
     transform: translateY(16px);
     transition: opacity 0.5s ease, transform 0.5s ease;
   }
+  /* First section tighter after nav — no big void below the sticky bar */
+  section:first-of-type { margin-top: 2rem; }
+  /* Flights follow Key Info tightly — same "logistics" cluster */
+  #travel { margin-top: 2rem; }
   section.visible {
     opacity: 1;
     transform: translateY(0);
   }
   section h2 {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     font-weight: 400;
     letter-spacing: 1.5px;
-    margin-bottom: 1rem;
-    padding-bottom: 0.4rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
     border-bottom: 2px solid var(--accent);
     display: flex;
     align-items: center;
@@ -188,8 +193,8 @@
   .card {
     background: var(--card);
     border-radius: 12px;
-    padding: 1rem 1.15rem;
-    margin-bottom: 0.75rem;
+    padding: 1.1rem 1.2rem;
+    margin-bottom: 0.85rem;
   }
   .card .label {
     font-size: 0.7rem;
@@ -222,20 +227,34 @@
   .timeline { padding-left: 0; list-style: none; }
   .timeline li {
     position: relative;
-    padding: 0.6rem 0 0.6rem 1.5rem;
+    padding: 0.7rem 0 0.7rem 1.5rem;
     border-left: 2px solid #1e3a25;
   }
   .timeline li::before {
     content: '';
     position: absolute;
     left: -5px;
-    top: 1rem;
+    top: 1.1rem;
     width: 8px;
     height: 8px;
     border-radius: 50%;
     background: var(--accent);
+    opacity: 0.5;
   }
-  .timeline li.highlight { border-left-color: var(--accent); }
+  .timeline li.highlight {
+    border-left-color: var(--accent);
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+    padding-left: 1.25rem;
+    margin-left: -0.25rem;
+  }
+  .timeline li.highlight::before {
+    opacity: 1;
+    width: 10px;
+    height: 10px;
+    left: -6px;
+    box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.15);
+  }
   .timeline li .time {
     font-size: 0.8rem;
     font-weight: 700;
@@ -248,8 +267,8 @@
   /* ── Checklist ── */
   .checklist { list-style: none; padding: 0; }
   .checklist li {
-    padding: 0.55rem 0;
-    padding-left: 1.6rem;
+    padding: 0.7rem 0;
+    padding-left: 1.8rem;
     position: relative;
     font-size: 0.95rem;
   }
@@ -340,9 +359,9 @@
     background: var(--card);
     color: var(--text);
     text-decoration: none;
-    padding: 0.85rem 1rem;
+    padding: 0.95rem 1.1rem;
     border-radius: 12px;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.75rem;
     border: 1px solid transparent;
     transition: border-color 0.2s, transform 0.1s;
   }
@@ -399,7 +418,8 @@
   }
 
   /* ── Subheading ── */
-  .sub { font-size: 1.05rem; font-weight: 700; margin: 1.2rem 0 0.5rem; color: var(--info); }
+  .sub { font-size: 0.85rem; font-weight: 700; margin: 1.5rem 0 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px; }
+  .sub:first-of-type { margin-top: 0.25rem; }
 
   /* ── Links ── */
   a.venue { color: var(--accent); text-decoration: none; border-bottom: 1px dashed var(--accent); }
@@ -525,12 +545,12 @@
 
   <!-- Sticky Nav -->
   <nav class="day-nav">
-    <a href="#quick-ref">Key Info</a>
-    <a href="#friday">Fri 17th</a>
-    <a href="#saturday">Sat 18th</a>
-    <a href="#sunday">Sun 19th</a>
-    <a href="#monday">Mon 20th</a>
-    <a href="#packing">Packing</a>
+    <a href="#quick-ref">Info</a>
+    <a href="#friday">Fri</a>
+    <a href="#saturday">Sat</a>
+    <a href="#sunday">Sun</a>
+    <a href="#monday">Mon</a>
+    <a href="#packing">Kit</a>
   </nav>
 
   <div class="container">
@@ -548,7 +568,7 @@
         <span class="chevron">→</span>
       </a>
 
-      <a class="action-btn phone" href="tel:+351308800730">
+      <a class="action-btn phone" href="tel:+351308800730" style="margin-bottom:1.25rem">
         <span class="icon"><svg viewBox="0 0 24 24" fill="#dc2626"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57a1.02 1.02 0 0 0-1.02.24l-2.2 2.2a15.045 15.045 0 0 1-6.59-6.59l2.2-2.21a.96.96 0 0 0 .25-1A11.36 11.36 0 0 1 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1zM19 12h2a9 9 0 0 0-9-9v2c3.87 0 7 3.13 7 7zm-4 0h2c0-2.76-2.24-5-5-5v2c1.66 0 3 1.34 3 3z"/></svg></span>
         <span class="content">
           <span class="label">Transfers — Algaserra</span>
