@@ -308,6 +308,96 @@
   }
   .flight-card .flight-arrow svg { width: 16px; height: 16px; fill: var(--accent); }
 
+  .flight-card .flight-date {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+
+  /* ── Action buttons (contacts) ── */
+  .action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--card);
+    color: var(--text);
+    text-decoration: none;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    margin-bottom: 0.6rem;
+    border: 1px solid transparent;
+    transition: border-color 0.2s, transform 0.1s;
+  }
+  .action-btn:active { transform: scale(0.98); }
+  .action-btn.whatsapp { border-color: rgba(46, 160, 67, 0.3); }
+  .action-btn.whatsapp:hover { border-color: var(--green); }
+  .action-btn.phone { border-color: rgba(220, 38, 38, 0.3); }
+  .action-btn.phone:hover { border-color: var(--red); }
+  .action-btn .icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .action-btn.whatsapp .icon { background: rgba(46, 160, 67, 0.15); }
+  .action-btn.phone .icon { background: rgba(220, 38, 38, 0.15); }
+  .action-btn .icon svg { width: 20px; height: 20px; }
+  .action-btn .content { flex: 1; min-width: 0; }
+  .action-btn .content .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-bottom: 0.1rem;
+  }
+  .action-btn .content .value {
+    font-weight: 700;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .action-btn .chevron { color: var(--text-dim); flex-shrink: 0; }
+
+  /* ── Send-off card ── */
+  .sendoff {
+    margin-top: 3rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    border-top: 1px solid #1e3a25;
+    border-bottom: 1px solid #1e3a25;
+  }
+  .sendoff .top {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .sendoff .bottom {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+  }
+  .sendoff .wedding {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1.2rem;
+    background: rgba(220, 38, 38, 0.1);
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.5px;
+  }
+  .sendoff .wedding strong { color: var(--accent); }
+
   /* ── Subheading ── */
   .sub { font-size: 1.05rem; font-weight: 700; margin: 1.2rem 0 0.5rem; color: var(--info); }
 
@@ -360,6 +450,24 @@
     <section id="quick-ref">
       <h2>Key Info</h2>
 
+      <a class="action-btn whatsapp" href="https://chat.whatsapp.com/GalvhBHDHWIE52WsgVRz7n?mode=gi_t" target="_blank">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="#2ea043"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></span>
+        <span class="content">
+          <span class="label">Group Chat</span>
+          <span class="value">WhatsApp — Rob's Stag</span>
+        </span>
+        <span class="chevron">→</span>
+      </a>
+
+      <a class="action-btn phone" href="tel:+351308800730">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="#dc2626"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57a1.02 1.02 0 0 0-1.02.24l-2.2 2.2a15.045 15.045 0 0 1-6.59-6.59l2.2-2.21a.96.96 0 0 0 .25-1A11.36 11.36 0 0 1 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1zM19 12h2a9 9 0 0 0-9-9v2c3.87 0 7 3.13 7 7zm-4 0h2c0-2.76-2.24-5-5-5v2c1.66 0 3 1.34 3 3z"/></svg></span>
+        <span class="content">
+          <span class="label">Transfers — Algaserra</span>
+          <span class="value">+351 308 800 730</span>
+        </span>
+        <span class="chevron">→</span>
+      </a>
+
       <div class="card">
         <div class="label">Booking Reference</div>
         <div class="value">ZZT8YM</div>
@@ -406,6 +514,7 @@
             <div class="time-big">11:35</div>
           </div>
         </div>
+        <div class="flight-date">Fri 17 Apr 2026</div>
       </div>
       <div class="card">
         <div class="detail">Everyone has hold luggage + carry-on included. Arrive at the airport by <strong>6:00am</strong> if checking a bag, <strong>6:30am</strong> if hand luggage only.</div>
@@ -429,6 +538,7 @@
             <div class="time-big">14:25</div>
           </div>
         </div>
+        <div class="flight-date">Mon 20 Apr 2026</div>
       </div>
       <div class="card">
         <div class="detail">Depart villa by <strong>08:40</strong> — transfer to Faro arranged.</div>
@@ -586,6 +696,13 @@
         <li>Toiletries</li>
       </ul>
     </section>
+
+    <!-- ── Send-off ── -->
+    <div class="sendoff">
+      <div class="top">That's a wrap, lads</div>
+      <div class="bottom">It's going to be a weekend for the ages.</div>
+      <div class="wedding">See you at the wedding — <strong>30 May 2026</strong></div>
+    </div>
 
   </div><!-- /container -->
 </div><!-- /content -->
